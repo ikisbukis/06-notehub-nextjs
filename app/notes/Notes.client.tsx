@@ -24,8 +24,8 @@ const NoteClient = () => {
     })
 
     const onChange = useDebouncedCallback(
-      (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSearch(e.target.value)
+      (value: string) => {
+        setSearch(value)
         setPage(1)
       },
       400
@@ -44,7 +44,7 @@ const NoteClient = () => {
 		    {(data?.totalPages ?? 0) > 1 && <Pagination totalPages={data?.totalPages ?? 0} currentPage={page} onPageChange={setPage}/>}
 		    <button className={css.button} onClick={() => onClose(!isForm)}>Create note +</button>
       </header>
-       {notes && <NoteList notes={notes} />}
+       {notes.length > 0 && <NoteList notes={notes} />}
        {isForm && 
         <Modal onClose={() => setForm(false)}>
           <NoteForm onClose={() => setForm(false)}/>

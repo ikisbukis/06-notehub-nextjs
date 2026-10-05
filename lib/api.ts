@@ -12,6 +12,10 @@ interface FetchNotesParamsHttpResponse{
 }
 
 const key = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN
+if(key){
+    throw new Error("TOKEN is not defined");
+}
+
 const options = {
     headers: {
         Accept: "application/json",  
@@ -19,7 +23,7 @@ const options = {
     }
 }
 
-axios.defaults.url = 'https://notehub-public.goit.study/api'
+axios.defaults.baseURL = 'https://notehub-public.goit.study/api'
 
 export const fetchNotes = async ({page, search}: FetchNotesParams) : Promise<FetchNotesParamsHttpResponse> => {
     const response = await axios.get<FetchNotesParamsHttpResponse>(`/notes`, {...options, params: {page: page, ...(search ? {search} : {}) }}  )
@@ -27,16 +31,16 @@ export const fetchNotes = async ({page, search}: FetchNotesParams) : Promise<Fet
 }
 
 export const createNote = async ( {title, content, tag} : CreateNoteType) : Promise<Note> => {
-    const response = await axios.post<Note>(`notes`, {title, content, tag}, options)
+    const response = await axios.post<Note>(`/notes`, {title, content, tag}, options)
     return response.data
 }
 
 export const deleteNote = async (id: string) : Promise<Note> => {
-    const response = await axios.delete<Note>(`https://notehub-public.goit.study/api/notes/${id}`, options)
+    const response = await axios.delete<Note>(`/notes/${id}`, options)
     return response.data
 }
 
 export const fetchNoteById = async (id: string) : Promise<Note> => {
-    const response = await axios.get<Note>(`/notes/${id}`)
+    const response = await axios.get<Note>(`/notes/${id}`, options)
     return response.data
 }
