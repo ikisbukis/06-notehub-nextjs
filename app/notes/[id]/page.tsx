@@ -20,3 +20,5 @@ const NoteDetails = async ({params} : NoteDetailsProps) => {
                 <NoteDetailsClient />
             </HydrationBoundary>
 }
+
+export default NoteDetails
