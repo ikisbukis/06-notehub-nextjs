@@ -12,6 +12,7 @@ interface FetchNotesParamsHttpResponse{
 }
 
 const key = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN
+
 if(!key){
     throw new Error("TOKEN is not defined");
 }
