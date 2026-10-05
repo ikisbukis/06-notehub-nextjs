@@ -12,18 +12,17 @@ interface FetchNotesParamsHttpResponse{
 }
 
 const key = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN
-if(key){
+if(!key){
     throw new Error("TOKEN is not defined");
 }
 
 const options = {
+    baseURL: "https://notehub-public.goit.study/api",
     headers: {
         Accept: "application/json",  
         Authorization: `Bearer ${key}`
     }
 }
-
-axios.defaults.baseURL = 'https://notehub-public.goit.study/api'
 
 export const fetchNotes = async ({page, search}: FetchNotesParams) : Promise<FetchNotesParamsHttpResponse> => {
     const response = await axios.get<FetchNotesParamsHttpResponse>(`/notes`, {...options, params: {page: page, ...(search ? {search} : {}) }}  )
